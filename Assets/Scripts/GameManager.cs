@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Fungsi untuk selalu mengeksekusi CollectPerSecond setiap detik 
+        // function to execute CollectPerSecond every second 
         _collectSecond += Time.unscaledDeltaTime;
         if (_collectSecond >= 1f) 
         { 
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
             output += resource.GetOutput (); 
             output *= AutoCollectPercentage; 
 
-            // T("F1") ialah membulatkan angka menjadi desimal yang memiliki 1 angka di belakang koma 
+            // T("F1") makes number with 1 digit after comma 
             AutoCollectInfo.text = $"Auto Collect: { output.ToString ("F1") } / second"; 
 
             AddGold (output); 
