@@ -79,13 +79,26 @@ public class GameManager : MonoBehaviour
     }
 
     private void AddAllResources ()
-    { 
+    {
+        // Added in "Add Unlock Resources feature"
+        bool showResources = true;
+
         foreach (ResourceConfig config in ResourcesConfigs) 
         { 
             GameObject obj = Instantiate (ResourcePrefab.gameObject, ResourcesParent, false); 
             ResourceController resource = obj.GetComponent<ResourceController> (); 
  
-            resource.SetConfig (config); 
+            resource.SetConfig (config);
+
+            // Added in "Add Unlock Resources feature"
+            obj.gameObject.SetActive (showResources);
+
+            // Added in "Add Unlock Resources feature"
+            if (showResources && !resource.IsUnlocked)
+            {
+                showResources = false;
+            }
+
             _activeResources.Add (resource); 
         }
     }
@@ -95,16 +108,18 @@ public class GameManager : MonoBehaviour
     { 
         double output = 0; 
         foreach (ResourceController resource in _activeResources) 
-        { 
-
-            output += resource.GetOutput (); 
-            output *= AutoCollectPercentage; 
-
-            // T("F1") makes number with 1 digit after comma 
-            AutoCollectInfo.text = $"Auto Collect: { output.ToString ("F1") } / second"; 
-
-            AddGold (output); 
+        {
+            // Added in "Add Unlock Resources feature"
+            if (resource.IsUnlocked)
+            {
+                output += resource.GetOutput ();
+            }
         }
+        output *= AutoCollectPercentage; 
+
+        // T("F1") makes number with 1 digit after comma
+        AutoCollectInfo.text = $"PENGUMPUL OTOMATIS : { output.ToString ("F1") } / DETIK"; 
+        AddGold (output);
     }
 
     public void AddGold (double value)
@@ -119,8 +134,13 @@ public class GameManager : MonoBehaviour
         double output = 0;
         foreach (ResourceController resource in _activeResources)
         {
-            output += resource.GetOutput ();
+            // Added in "Add Unlock Resources feature"
+            if (resource.IsUnlocked)
+            {
+                output += resource.GetOutput ();
+            }
         }
+
         TapText tapText = GetOrCreateTapText ();
         tapText.transform.SetParent (parent, false);
         tapText.transform.position = tapPosition;
@@ -147,8 +167,31 @@ public class GameManager : MonoBehaviour
     {
         foreach (ResourceController resource in _activeResources)
         {
-            bool isBuyable = TotalGold >= resource.GetUpgradeCost ();
+            // Added in "Add Unlock Resources feature"
+            bool isBuyable = false;
+            if (resource.IsUnlocked)
+            {
+                isBuyable = TotalGold >= resource.GetUpgradeCost ();
+            }
+            else
+            {
+                isBuyable = TotalGold >= resource.GetUnlockCost ();
+            }
+
             resource.ResourceImage.sprite = ResourcesSprites[isBuyable ? 1 : 0];
+        }
+    }
+
+    // Added in "Add Unlock Resources feature"
+    public void ShowNextResource ()
+    {
+        foreach (ResourceController resource in _activeResources)
+        {
+            if (!resource.gameObject.activeSelf)
+            {
+                resource.gameObject.SetActive (true);
+                break;
+            }
         }
     }
 }
