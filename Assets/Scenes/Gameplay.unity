@@ -1149,11 +1149,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AutoCollectPercentage: 0.1
-  ResourcesConfigs: []
-  ResourcesParent: {fileID: 0}
-  ResourcePrefab: {fileID: 0}
-  GoldInfo: {fileID: 0}
-  AutoCollectInfo: {fileID: 0}
+  ResourcesConfigs:
+  - Name: Click
+    UnlockCost: 0
+    UpgradeCost: 1
+    Output: 2
+  ResourcesParent: {fileID: 999490367}
+  ResourcePrefab: {fileID: 9135523221037172584, guid: ca4aa60cfde9841d4809ae2179f6c625,
+    type: 3}
+  GoldInfo: {fileID: 684088828}
+  AutoCollectInfo: {fileID: 319241941}
 --- !u!4 &1549702328
 Transform:
   m_ObjectHideFlags: 0
