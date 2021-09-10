@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     private List<TapText> _tapTextPool = new List<TapText> ();  // Added in "Creating Incremental Tap"
     
     private float _collectSecond; 
-    private double _totalGold;
+    public double TotalGold;
 
     // Start is called before the first frame update
     void Start()
@@ -100,10 +100,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void AddGold (double value)
+    public void AddGold (double value)
     {
-        _totalGold += value;
-        GoldInfo.text = $"Gold: { _totalGold.ToString ("0") }";
+        TotalGold += value;
+        GoldInfo.text = $"Gold: { TotalGold.ToString ("0") }";
     }
 
     // Added in "Creating Incremental Tap" 
