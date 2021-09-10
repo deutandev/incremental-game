@@ -33,7 +33,11 @@ public class GameManager : MonoBehaviour
     [Range (0f, 1f)] 
 
     public float AutoCollectPercentage = 0.1f; 
-    public ResourceConfig[] ResourcesConfigs; 
+    public ResourceConfig[] ResourcesConfigs;
+
+    // Added in "Differentiate Upgrade color"
+    public Sprite[] ResourcesSprites;
+
     public Transform ResourcesParent; 
     public ResourceController ResourcePrefab; 
     public Text GoldInfo; 
@@ -65,6 +69,9 @@ public class GameManager : MonoBehaviour
             CollectPerSecond (); 
             _collectSecond = 0f; 
         }
+
+        // Added in "Differentiate Upgrade color"
+        CheckResourceCost ();
 
         // Added in "Creating Incremental Tap"
         CoinIcon.transform.localScale = Vector3.LerpUnclamped (CoinIcon.transform.localScale, Vector3.one * 2f, 0.15f);
@@ -133,5 +140,15 @@ public class GameManager : MonoBehaviour
             _tapTextPool.Add (tapText);
         }
         return tapText;
+    }
+
+    // Added in "Differetiate Upgrade color"
+    private void CheckResourceCost ()
+    {
+        foreach (ResourceController resource in _activeResources)
+        {
+            bool isBuyable = TotalGold >= resource.GetUpgradeCost ();
+            resource.ResourceImage.sprite = ResourcesSprites[isBuyable ? 1 : 0];
+        }
     }
 }

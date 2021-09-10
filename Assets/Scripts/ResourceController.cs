@@ -35,7 +35,7 @@ public class ResourceController : MonoBehaviour
 
     public double GetUpgradeCost()
     {
-        return _config.UnlockCost;
+        return _config.UpgradeCost;
     }
 
     // Added in "Create Upgrade Button"
