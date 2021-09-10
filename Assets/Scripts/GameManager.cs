@@ -1,7 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+
+// Add System.Serializable so the objects can be serialized and
+// its value can be set from inspector
+[System.Serializable]
+public struct ResourceConfig
+{
+    public string Name;
+    public double UnlockCost;
+    public double UpgradeCost;
+    public double Output;
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -61,6 +72,7 @@ public class GameManager : MonoBehaviour
             _activeResources.Add (resource); 
         }
     }
+    
 
     private void CollectPerSecond () 
     { 
@@ -77,21 +89,10 @@ public class GameManager : MonoBehaviour
             AddGold (output); 
         }
     }
-    
+
     private void AddGold (double value)
     {
         _totalGold += value;
         GoldInfo.text = $"Gold: { _totalGold.ToString ("0") }";
     }
-}
-
-// Add System.Serializable so the objects can be serialized and
-// its value can be set from inspector
-[System.Serializable]
-public struct ResourceConfig
-{
-    public string Name;
-    public double UnlockCost;
-    public double UpgradeCost;
-    public double Output;
 }
